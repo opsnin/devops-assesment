@@ -91,6 +91,7 @@ Note: Image Build is triggered in each terraform apply.
    ```
 
 Replace `<api-endpoint>` and `<api-key>` with actual api endpoint and api key from step 2.
+Here default is the stage , i have used default stage, if you update any other stage then default update it accordingly.
 
 ## Notes
 
