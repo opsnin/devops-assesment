@@ -9,7 +9,6 @@ locals {
 
 resource "aws_api_gateway_rest_api" "game_api" {
   name        = "GameRESTAPI"
-  description = "REST API for managing games"
 }
 
 resource "aws_api_gateway_resource" "endpoints" {

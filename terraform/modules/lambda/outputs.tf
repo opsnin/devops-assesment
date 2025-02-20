@@ -9,5 +9,4 @@ output "lambda_invoke_arn" {
 }
 output "lambda_function_name" {
   value       = aws_lambda_function.docker.function_name
-  description = "name of the Lambda function"
 }
