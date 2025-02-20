@@ -35,29 +35,37 @@ This process will:
 - Set up the Lambda function
 - Configure the API Gateway
 
-Note: Image Build is triggered in each terraform apply.
+## Note 
+- Image Build is triggered in each terraform apply.
 
 ## 2. Retrieve API Information
 
 1. Get the API endpoint URL from Terraform output:
    ```
-   terraform output api_endpoint
+   export API_ENDPOINT=$(API_ID=$(aws apigateway get-rest-apis --region ap-south-1 --query 'items[?name==`GameRESTAPI`].id' --output text) && \
+   STAGE=$(aws apigateway get-stages --rest-api-id $API_ID --region ap-south-1 --query 'item[0].stageName' --output text) && \
+   echo "https://$API_ID.execute-api.ap-south-1.amazonaws.com/$STAGE") && echo $API_ENDPOINT
+  
    ```
 
 2. Get the API ID:
    ```
-   API_ID=$(aws apigateway get-rest-apis --query 'items[?name==`GameRESTAPI`].id' --output text)
+   export API_ID=$(aws apigateway get-rest-apis --region ap-south-1 --query 'items[?name==`GameRESTAPI`].id' --output text)
    ```
 
 3. Get the API key ID:
    ```
-   API_KEY_ID=$(aws apigateway get-api-keys --query 'items[?name==`GameAPIKey`].id' --output text)
+   export API_KEY_ID=$(aws apigateway get-api-keys --region ap-south-1 --query 'items[?name==`GameAPIKey`].id' --output text)
    ```
 
 4. Retrieve the API key (this will display the actual key):
    ```
-   API_KEY=$(aws apigateway get-api-key --api-key $API_KEY_ID --include-value --query 'value' --output text)
+   export API_KEY=$(aws apigateway get-api-key --region ap-south-1 --api-key $API_KEY_ID --include-value --query 'value' --output text)
    ```
+
+## Notes
+- Here GameRESTAPI used above is name of API created, you can update with what-ever name you have provided. You can provide name of Rest API from .tfvars file which i have provided a demo.tfvars. 
+- Also please update region to whatever region you are deploying these resources.
 
 ## 3. Test API Endpoints
 
@@ -65,30 +73,30 @@ Note: Image Build is triggered in each terraform apply.
 
    List Games:
    ```
-   curl -X GET 'https://<api-endpoint>/default/list-games' \
-   -H 'x-api-key: <api-key>'
+   curl -X GET "$API_ENDPOINT/list-games" \           
+   -H "x-api-key: "$API_KEY""
    ```
 
    Create Game:
    ```
-   curl -X POST 'https://<api-endpoint>/default/create-game' \
-   -H 'x-api-key: <api-key>' \
+   curl -X POST "$API_ENDPOINT/create-game" \
+   -H "x-api-key: "$API_KEY"" \
    -H 'Content-Type: application/json' \
    -d '{"name": "New Game"}'
    ```
 
    Update Game:
    ```
-   curl -X PUT 'https://<api-endpoint>/default/update-game' \
-   -H 'x-api-key: <api-key>' \
+   curl -X PUT "$API_ENDPOINT/update-game" \
+   -H "x-api-key: $API_KEY" \
    -H 'Content-Type: application/json' \
    -d '{"name": "Updated Game"}'
    ```
 
    External Call:
    ```
-   curl -X GET 'https://<api-endpoint>/default/external-call' \
-   -H 'x-api-key: <api-key>'
+   curl -X GET "$API_ENDPOINT/external-call" \
+   -H "x-api-key: $API_KEY"
    ```
 
 Replace `<api-endpoint>` and `<api-key>` with actual api endpoint and api key from step 2.

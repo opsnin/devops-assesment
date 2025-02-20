@@ -3,10 +3,6 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    Name  = "${var.project_name}-vpc"
+    Name = "${var.project_name}-vpc"
   }
-}
-
-output "vpc_id" {
-  value = aws_vpc.vpc.id
 }
