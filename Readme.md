@@ -6,8 +6,9 @@
 
 ## 1. Deploy Infrastructure with Terraform
 
-1. Go to to directory.
+1. Clone git repo & Go to to directory.
    ```
+    git clone https://github.com/opsnin/devops-assesment.git
     cd devops-assessment
    ```
 
