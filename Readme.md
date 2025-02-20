@@ -36,7 +36,7 @@ This process will:
 
 Note: Image Build is triggered in each terraform apply.
 
-## 2. Test API Endpoints
+## 2. Retrieve API Information
 
 1. Get the API endpoint URL from Terraform output:
    ```
