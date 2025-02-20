@@ -99,9 +99,6 @@ This process will:
    -H "x-api-key: $API_KEY"
    ```
 
-Replace `<api-endpoint>` and `<api-key>` with actual api endpoint and api key from step 2.
-Here default is the stage , i have used default stage, if you update any other stage then default update it accordingly.
-
 ## Notes
 
 - Ensure you have the necessary permissions to create and manage AWS resources.
