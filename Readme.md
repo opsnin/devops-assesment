@@ -38,13 +38,29 @@ Note: Image Build is triggered in each terraform apply.
 
 ## 2. Test API Endpoints
 
-1. Get your API key and endpoint URL from Terraform outputs:
+1. Get the API endpoint URL from Terraform output:
    ```
    terraform output api_endpoint
-   terraform output api_key
    ```
 
-2. Use curl to test endpoints:
+2. Get the API ID:
+   ```
+   API_ID=$(aws apigateway get-rest-apis --query 'items[?name==`GameRESTAPI`].id' --output text)
+   ```
+
+3. Get the API key ID:
+   ```
+   API_KEY_ID=$(aws apigateway get-api-keys --query 'items[?name==`GameAPIKey`].id' --output text)
+   ```
+
+4. Retrieve the API key (this will display the actual key):
+   ```
+   API_KEY=$(aws apigateway get-api-key --api-key $API_KEY_ID --include-value --query 'value' --output text)
+   ```
+
+## 3. Test API Endpoints
+
+ Use curl to test endpoints:
 
    List Games:
    ```
@@ -74,7 +90,7 @@ Note: Image Build is triggered in each terraform apply.
    -H 'x-api-key: <api-key>'
    ```
 
-Replace `<api-endpoint>` and `<api-key>` with the values from the Terraform outputs.
+Replace `<api-endpoint>` and `<api-key>` with actual api endpoint and api key from step 2.
 
 ## Notes
 
